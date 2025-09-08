@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,13 @@ namespace Restaurant.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddInfrastructure(this IServiceCollection services)
+        public static void AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<Persistence.RestaurantDbContext>();
+            var connectionString = config.GetConnectionString("DefaultConnection");
+            services.AddDbContext<Persistence.RestaurantDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
         }
     }
 }
