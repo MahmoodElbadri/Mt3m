@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Restaurant.Infrastructure.Seeders;
+using Restaurant.Domain.Repositories;
+using Restaurant.Infrastructure.Repository;
 
 namespace Restaurant.Infrastructure.Extensions
 {
@@ -21,6 +23,7 @@ namespace Restaurant.Infrastructure.Extensions
             });
 
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
         }
     }
 }
