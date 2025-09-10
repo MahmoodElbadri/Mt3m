@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Restaurant.Infrastructure.Seeders;
 
 namespace Restaurant.Infrastructure.Extensions
 {
@@ -18,6 +19,8 @@ namespace Restaurant.Infrastructure.Extensions
             {
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
         }
     }
 }

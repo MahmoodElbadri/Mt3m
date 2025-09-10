@@ -12,21 +12,44 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
 {
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Restaurant.Domain.Entities.Restaurant> Restaurants { get; set; }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("");
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    base.OnConfiguring(optionsBuilder);
+    //    optionsBuilder.UseSqlServer("");
+    //}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Domain.Entities.Restaurant>()
-            .OwnsOne(tmp => tmp.Address);
+        modelBuilder.Entity<Domain.Entities.Restaurant>(tmp =>
+        {
+            tmp.OwnsOne(tmp => tmp.Address)
+            .Property(tmp => tmp.Street)
+            .IsRequired()
+            .HasMaxLength(100);
+
+            tmp.OwnsOne(tmp => tmp.Address)
+            .Property(tmp => tmp.City)
+            .IsRequired()
+            .HasMaxLength(100);
+
+            tmp.OwnsOne(tmp => tmp.Address)
+            .Property(tmp => tmp.PostalCode)
+            .HasMaxLength(10);
+        });
+
+
 
         modelBuilder.Entity<Restaurant.Domain.Entities.Restaurant>()
             .HasMany(tmp => tmp.Dishes)
             .WithOne()
             .HasForeignKey(tmp => tmp.RestaurantId);
+
+        modelBuilder.Entity<Restaurant.Domain.Entities.Dish>()
+            .Property(tmp => tmp.Price)
+            .HasPrecision(18, 2);
+
+
+
     }
 }
