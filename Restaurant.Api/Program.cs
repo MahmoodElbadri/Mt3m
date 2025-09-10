@@ -1,5 +1,6 @@
 using Restaurant.Infrastructure.Extensions;
 using Restaurant.Infrastructure.Seeders;
+using Restaurant.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
@@ -32,6 +34,11 @@ catch (Exception ex)
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.Use(async (context, next) =>
+    {
+        context.Response.Redirect("/swagger/index.html");
+        await next();
+    });
 }
 
 app.UseHttpsRedirection();
