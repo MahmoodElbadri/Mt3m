@@ -9,6 +9,14 @@ namespace Restaurant.Application.Restaurants;
 
 public class RestaurantService(IRestaurantRepository _restRepo, ILogger<RestaurantService> _logger, IMapper _mapper) : IRestaurantService
 {
+    public Task<int> CreateAsync(RestaurantCreateDto restDto)
+    {
+        _logger.LogInformation("Creating Restaurant");
+        var rest = _mapper.Map<Domain.Entities.Restaurant>(restDto);
+        _logger.LogInformation($"Created Restaurant with name {rest.Name} and id is {rest.Id}");
+        return _restRepo.CreateAsync(rest);
+    }
+
     public async Task<RestaurantDto?> GetRestaurantByIdAsync(int id)
     {
         _logger.LogInformation($"Getting Restaurant by {id}");

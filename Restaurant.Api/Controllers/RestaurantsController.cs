@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using Restaurant.Application.Restaurant.Dtos;
 using Restaurant.Application.Restaurants;
 
 [ApiController]
@@ -29,5 +30,12 @@ public class RestaurantsController : ControllerBase
             return NotFound("Restaurant not found!");
         }
         return Ok(rest);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateRestaurant([FromBody] RestaurantCreateDto _restDto)
+    {
+        int id = await _restService.CreateAsync(_restDto);
+        return CreatedAtAction(nameof(GetRestById), new { id = id }, id);
     }
 }

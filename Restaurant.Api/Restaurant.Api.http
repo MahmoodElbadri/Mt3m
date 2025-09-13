@@ -13,3 +13,21 @@ GET {{Restaurant.Api_HostAddress}}/api/restaurants/1
 
 
 ###
+
+POST {{Restaurant.Api_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  "name": "Abu Khalil",
+  "description": "A Restaurant in Cairo City in Egypt known for its delicious food",
+  "category": "Fast Food",
+  "hasDelivery": true,
+  "contactEmail": "abukhalil@restaurant.com",
+  "contactNumber": "+20123456789",
+  "street": "Street No. 12 in Cairo City",
+  "city": "Cairo",
+  "postalCode": "12345"
+
+}
+
+###
