@@ -7,13 +7,13 @@ namespace Restaurant.Infrastructure.Repository;
 
 public class RestaurantRepository(RestaurantDbContext dbContext) : IRestaurantRepository
 {
-    public async Task<Domain.Entities.Restaurant?> GetRestaurantById(int id)
+    public async Task<Domain.Entities.Restaurant?> GetRestaurantByIdAsync(int id)
     {
         var rest = await dbContext.Restaurants.Include(tmp => tmp.Dishes).FirstOrDefaultAsync(tmp => tmp.Id == id);
         return rest;
     }
 
-    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurants()
+    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurantsAsync()
     {
         var restaurants = await dbContext.Restaurants.Include(tmp => tmp.Dishes).ToListAsync();
         return restaurants;

@@ -1,7 +1,9 @@
-﻿namespace Restaurant.Application.Restaurants;
+﻿using Restaurant.Application.Restaurant.Dtos;
+
+namespace Restaurant.Application.Restaurants;
 
 public interface IRestaurantService
 {
-    public Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurants();
-    public Task<Restaurant.Domain.Entities.Restaurant?> GetRestaurantById(int id);
+    public Task<IEnumerable<RestaurantDto>> GetRestaurantsAsync();
+    public Task<RestaurantDto?> GetRestaurantByIdAsync(int id);
 }

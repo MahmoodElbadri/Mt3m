@@ -16,14 +16,14 @@ public class RestaurantsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetRestaurant()
     {
-        var restaurants = await _restService.GetRestaurants();
+        var restaurants = await _restService.GetRestaurantsAsync();
         return Ok(restaurants);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetRestById([FromRoute] int id)
     {
-        var rest = await _restService.GetRestaurantById(id);
+        var rest = await _restService.GetRestaurantByIdAsync(id);
         if (rest == null)
         {
             return NotFound("Restaurant not found!");
