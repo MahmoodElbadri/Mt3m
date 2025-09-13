@@ -1,30 +1,28 @@
+using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using Restaurant.Application.Restaurant.Commands.CreateRestaurant;
 using Restaurant.Application.Restaurant.Dtos;
-using Restaurant.Application.Restaurants;
+using Restaurant.Application.Restaurant.Quries.GetAllRestaurants;
+using Restaurant.Application.Restaurant.Quries.GetRestaurant;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RestaurantsController : ControllerBase
+public class RestaurantsController(IMediator _mediator) : ControllerBase
 {
-    private readonly IRestaurantService _restService;
 
-    public RestaurantsController(IRestaurantService restService)
-    {
-        this._restService = restService;
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetRestaurant()
     {
-        var restaurants = await _restService.GetRestaurantsAsync();
+        var restaurants = await _mediator.Send(new GetAllRestaurantQuery());
         return Ok(restaurants);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetRestById([FromRoute] int id)
     {
-        var rest = await _restService.GetRestaurantByIdAsync(id);
+        var rest = await _mediator.Send(new GetRestaurantQuery(id   ));
         if (rest == null)
         {
             return NotFound("Restaurant not found!");
@@ -33,13 +31,15 @@ public class RestaurantsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRestaurant([FromBody] RestaurantCreateDto _restDto)
+    public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantCommand restaurantCommand)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        int id = await _restService.CreateAsync(_restDto);
+        int id = await _mediator.Send(restaurantCommand); //we didn't add the name of the methodod because it is the only method in the command handler
         return CreatedAtAction(nameof(GetRestById), new { id = id }, id);
     }
+
+    //[HttpDelete("{id}")]
 }
