@@ -1,4 +1,6 @@
-﻿namespace Restaurant.Application.Dishes.Dtos;
+﻿using Restaurant.Domain.Entities;
+
+namespace Restaurant.Application.Dishes.Dtos;
 
 public class DishDto
 {
@@ -7,4 +9,12 @@ public class DishDto
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public int? KillCalories { get; set; }
+    public static DishDto FromEntity(Dish dish) => new()
+    {
+        Id = dish.Id,
+        Name = dish.Name,
+        Description = dish.Description,
+        Price = dish.Price,
+        KillCalories = dish.KillCalories
+    };
 }

@@ -1,14 +1,15 @@
 @Restaurant.Api_HostAddress = https://localhost:8080
 
-GET {{Restaurant.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
 
 GET {{Restaurant.Api_HostAddress}}/api/Restaurants
 Accept: application/json
 
 ###
 GET {{Restaurant.Api_HostAddress}}/api/restaurants
+
+###
+
+GET {{Restaurant.Api_HostAddress}}/api/restaurants/1 
+
 
 ###

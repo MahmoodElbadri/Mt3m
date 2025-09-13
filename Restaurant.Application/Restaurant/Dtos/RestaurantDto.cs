@@ -28,6 +28,7 @@ public class RestaurantDto
                 Street = restaurant.Address?.Street,
                 City = restaurant.Address?.City,
                 PostalCode = restaurant.Address?.PostalCode,
+                Dishes = restaurant.Dishes?.Select(DishDto.FromEntity).ToList()
             };
         return null;
     }
