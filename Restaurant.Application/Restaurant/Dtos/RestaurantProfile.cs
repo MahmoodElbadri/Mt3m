@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Restaurant.Application.Restaurant.Commands.CreateRestaurant;
 using Restaurant.Domain.Entities;
 
 namespace Restaurant.Application.Restaurant.Dtos;
@@ -17,7 +18,7 @@ public class RestaurantProfile : Profile
             }))
             .ForMember(tmp => tmp.Dishes, opt => opt.MapFrom(src => src.Dishes));
 
-        CreateMap<RestaurantCreateDto, Domain.Entities.Restaurant>()
+        CreateMap<CreateRestaurantCommand, Domain.Entities.Restaurant>()
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address
             {
                 City = src.City,
