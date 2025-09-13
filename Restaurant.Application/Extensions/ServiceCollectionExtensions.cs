@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Application.Restaurants;
 
@@ -10,5 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IRestaurantService, RestaurantService>();
         services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
+        services.AddValidatorsFromAssemblies(new[] { typeof(ServiceCollectionExtensions).Assembly });
+        services.AddFluentValidationAutoValidation();
     }
 }
