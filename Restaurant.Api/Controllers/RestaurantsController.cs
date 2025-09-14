@@ -54,7 +54,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
     {
         // Implementation for deleting a restaurant would go here
-        var isDeleted = await _mediator.Send(new DeleteRestaurantCommand() { Id = id });
+        await _mediator.Send(new DeleteRestaurantCommand() { Id = id });
         return NoContent();
     }
 
@@ -67,7 +67,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var isUpdated = await _mediator.Send(new UpdateRestaurantCommand() { Id = id, Description = command.Description, HasDelivery = command.HasDelivery, Name = command.Name });
+        await _mediator.Send(new UpdateRestaurantCommand() { Id = id, Description = command.Description, HasDelivery = command.HasDelivery, Name = command.Name });
         return NoContent();
     }
 }
