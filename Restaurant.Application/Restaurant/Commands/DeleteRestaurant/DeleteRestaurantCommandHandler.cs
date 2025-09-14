@@ -23,7 +23,7 @@ public class DeleteRestaurantCommandHandler : IRequestHandler<DeleteRestaurantCo
 
         if (restaurant == null)
         {
-            throw new NotFoundException($"Restaurant {request.Id} not found");
+            throw new NotFoundException(nameof(restaurant), request.Id.ToString());
         }
 
         await _restaurantRepository.DeleteAsync(restaurant);

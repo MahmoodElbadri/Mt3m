@@ -15,7 +15,7 @@ public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommand> _lo
         if (restaurant == null)
         {
             _logger.LogError("Restaurant not found");
-            throw new NotFoundException($"Restaurant with id {request.Id} not found");
+            throw new NotFoundException(nameof(restaurant), request.Id.ToString());
         }
         _mapper.Map(request, restaurant);
         await _restaurantRepository.UpdateAsync(restaurant);
