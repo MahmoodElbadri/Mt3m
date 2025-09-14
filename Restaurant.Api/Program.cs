@@ -2,6 +2,9 @@ using Restaurant.Infrastructure.Extensions;
 using Restaurant.Infrastructure.Seeders;
 using Restaurant.Application.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Serilog;
+using Serilog.Events;
+using Restaurant.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +13,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Host.UseSerilog((ctx, configureLogger) =>
+{
+    configureLogger
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .WriteTo.Console();
+});
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlingMiddleware>(); //we put it in the first line so that it can catch all the exceptions and also log them
+
+app.UseSerilogRequestLogging();
 
 try
 {

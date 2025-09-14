@@ -31,3 +31,7 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{Restaurant.Api_HostAddress}}/api/restaurants
+
+###

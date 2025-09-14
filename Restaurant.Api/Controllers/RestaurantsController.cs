@@ -15,13 +15,16 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> GetRestaurant()
+    [ProducesResponseType(StatusCodes.Status200OK),]
+    public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetRestaurant() //putting ActionResult because wee want to put it in swagger
     {
         var restaurants = await _mediator.Send(new GetAllRestaurantQuery());
         return Ok(restaurants);
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetRestById([FromRoute] int id)
     {
         var rest = await _mediator.Send(new GetRestaurantQuery(id));
@@ -33,7 +36,9 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantCommand restaurantCommand)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> CreateRestaurant([FromBody] CreateRestaurantCommand restaurantCommand)
     {
         if (!ModelState.IsValid)
         {
@@ -44,6 +49,8 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
     {
         // Implementation for deleting a restaurant would go here
@@ -52,6 +59,8 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, [FromBody] UpdateRestaurantCommand command)
     {
         if (!ModelState.IsValid)
