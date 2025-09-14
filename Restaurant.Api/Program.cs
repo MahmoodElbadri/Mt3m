@@ -20,11 +20,12 @@ builder.Host.UseSerilog((ctx, configureLogger) =>
     .WriteTo.Console();
 });
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<TimeLoggingMiddleware>();
 
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>(); //we put it in the first line so that it can catch all the exceptions and also log them
-
+app.UseMiddleware<TimeLoggingMiddleware>(); //we put it in the first line so that it can log the exact time time taken by each request 
 app.UseSerilogRequestLogging();
 
 try
