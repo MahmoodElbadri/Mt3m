@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Restaurant.Application.Restaurant.Commands.CreateRestaurant;
+using Restaurant.Application.Restaurant.Commands.UpdateRestaurant;
 using Restaurant.Domain.Entities;
 
 namespace Restaurant.Application.Restaurant.Dtos;
@@ -8,6 +9,7 @@ public class RestaurantProfile : Profile
 {
     public RestaurantProfile()
     {
+        CreateMap<Domain.Entities.Restaurant, UpdateRestaurantCommand>().ReverseMap();
         //we can't put reverse mapping map because of Address object type in Restaurant entity
         CreateMap<RestaurantDto, Domain.Entities.Restaurant>()
             .ForMember(tmp => tmp.Address, opt => opt.MapFrom(src => new Address

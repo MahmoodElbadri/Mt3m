@@ -16,9 +16,7 @@ public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommand> _lo
             _logger.LogError("Restaurant not found");
             return false;
         }
-        restaurant.Name = request.Name;
-        restaurant.Description = request.Description;
-        restaurant.HasDelivery = request.HasDelivery;
+        _mapper.Map(request, restaurant);
         await _restaurantRepository.UpdateAsync(restaurant);
         return true;
     }
