@@ -1,9 +1,8 @@
-﻿
-using MediatR;
+﻿using MediatR;
 
 namespace Restaurant.Application.Restaurant.Commands.DeleteRestaurant;
 
-public class DeleteRestaurantCommand:IRequest<bool>
+public class DeleteRestaurantCommand:IRequest<Unit>
 {
     public int Id { get; set; }
 }

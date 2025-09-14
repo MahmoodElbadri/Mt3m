@@ -55,7 +55,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     {
         // Implementation for deleting a restaurant would go here
         var isDeleted = await _mediator.Send(new DeleteRestaurantCommand() { Id = id });
-        return (isDeleted) ? NoContent() : NotFound();
+        return NoContent();
     }
 
     [HttpPatch("{id}")]
@@ -67,7 +67,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var isUpdated = await _mediator.Send(new UpdateRestaurantCommand() { Id = id , Description = command.Description , HasDelivery = command.HasDelivery , Name = command.Name });
-        return (isUpdated) ? NoContent() : NotFound();
+        var isUpdated = await _mediator.Send(new UpdateRestaurantCommand() { Id = id, Description = command.Description, HasDelivery = command.HasDelivery, Name = command.Name });
+        return NoContent();
     }
 }
