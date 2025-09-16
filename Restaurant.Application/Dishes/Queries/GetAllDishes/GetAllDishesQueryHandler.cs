@@ -7,12 +7,12 @@ using Restaurant.Domain.Repositories;
 
 namespace Restaurant.Application.Dishes.Queries.GetAllDishes;
 
-public class GetAllDishesCommandHandler(ILogger<GetAllDishesCommandHandler> _logger,
+public class GetAllDishesQueryHandler(ILogger<GetAllDishesQueryHandler> _logger,
     IDishesRepository _dishesRepository,
     IRestaurantRepository _restaurantsRepository,
-    IMapper _mapper) : IRequestHandler<GetAllDishesCommand, IEnumerable<DishDto>>
+    IMapper _mapper) : IRequestHandler<GetAllDishesQuery, IEnumerable<DishDto>>
 {
-    public async Task<IEnumerable<DishDto>> Handle(GetAllDishesCommand request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<DishDto>> Handle(GetAllDishesQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Getting all dishes for restaurant {request.RestaurantId}");
         var restaurant = await _restaurantsRepository.GetRestaurantByIdAsync(request.RestaurantId);

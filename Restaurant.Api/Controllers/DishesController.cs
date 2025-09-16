@@ -26,7 +26,7 @@ public class DishesController(IMediator _mediator) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<DishDto>>> GetDishes([FromRoute] int restaurantId)
     {
-        var dishes = await _mediator.Send(new GetAllDishesCommand(restaurantId));
+        var dishes = await _mediator.Send(new GetAllDishesQuery(restaurantId));
         return Ok(dishes);
     }
 
