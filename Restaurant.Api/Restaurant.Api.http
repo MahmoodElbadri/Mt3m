@@ -35,3 +35,19 @@ Content-Type: application/json
 GET {{Restaurant.Api_HostAddress}}/api/restaurants
 
 ###
+
+POST {{Restaurant.Api_HostAddress}}/api/restaurants/1/dishes
+Content-Type: application/json
+
+
+{
+  "name": "Salad",
+  "description": "Delicious Salad with fresh vegetables",
+  "price": 10.99,
+  "killCalories": 125,
+  "restaurantId": 1
+}
+
+###
+
+
