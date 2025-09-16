@@ -3,7 +3,7 @@ using Restaurant.Application.Dishes.Dtos;
 
 namespace Restaurant.Application.Dishes.Queries.GetAllDishes;
 
-public class GetAllDishesCommand:IRequest<IEnumerable<DishDto>>
+public class GetAllDishesCommand(int restaurantId):IRequest<IEnumerable<DishDto>>
 {
-    public int RestaurantId { get; set; }
+    public int RestaurantId { get; set; } = restaurantId;
 }
