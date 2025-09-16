@@ -23,7 +23,12 @@ public class GetDishesForRestaurantQueryHandler(ILogger<GetAllDishesQueryHandler
             _logger.LogWarning("Restaurant with id: {restaurantId} not found", request.RestaurantId);
             throw new NotFoundException(nameof(restaurant), request.RestaurantId.ToString());
         }
-        var dishes = await _dishesRepository.GetDishesForRestaurantAsync(request.RestaurantId);
+        var dishes = restaurant?.Dishes?.FirstOrDefault(tmp=>tmp.Id==request.DishId);
+        if (dishes == null)
+        {
+            _logger.LogWarning("Dish with id: {dishId} not found", request.DishId);
+            throw new NotFoundException(nameof(dishes), request.DishId.ToString());
+        }
         return _mapper.Map<DishDto>(dishes);
     }
 }

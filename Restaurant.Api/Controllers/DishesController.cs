@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Application.Dishes.Commands.CreateDish;
+using Restaurant.Application.Dishes.Commands.DeleteDishes;
 using Restaurant.Application.Dishes.Dtos;
 using Restaurant.Application.Dishes.Queries.GetAllDishes;
 using Restaurant.Application.Dishes.Queries.GetDishesForRestaurant;
@@ -35,5 +36,12 @@ public class DishesController(IMediator _mediator) : ControllerBase
     {
         var dishes = await _mediator.Send(new GetDishesForRestaurantQuery(restaurantId, dishId));
         return Ok(dishes);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteDishesForRestaurant([FromRoute] int restaurantId)
+    {
+        await _mediator.Send(new DeleteDishesForResaurantCommand(restaurantId));
+        return NoContent();
     }
 }
