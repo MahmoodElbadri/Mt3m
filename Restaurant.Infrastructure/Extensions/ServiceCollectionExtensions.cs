@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Restaurant.Infrastructure.Seeders;
 using Restaurant.Domain.Repositories;
 using Restaurant.Infrastructure.Repository;
+using Restaurant.Infrastructure.Persistence;
+using Restaurant.Domain.Entities;
 
 namespace Restaurant.Infrastructure.Extensions;
 
@@ -21,6 +23,9 @@ public static class ServiceCollectionExtensions
         {
             options.UseSqlServer(connectionString);
         });
+
+        services.AddIdentityApiEndpoints<User>()
+            .AddEntityFrameworkStores<RestaurantDbContext>();
 
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
         services.AddScoped<IRestaurantRepository, RestaurantRepository>();

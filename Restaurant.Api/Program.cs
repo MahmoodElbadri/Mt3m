@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Serilog;
 using Serilog.Events;
 using Restaurant.Api.Middlewares;
+using Restaurant.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapIdentityApi<User>();
 app.UseAuthorization();
 app.MapControllers();
 

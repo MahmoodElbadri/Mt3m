@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Restaurant.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.Infrastructure.Persistence;
 
-public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : DbContext(options)
+public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Restaurant.Domain.Entities.Restaurant> Restaurants { get; set; }
