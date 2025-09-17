@@ -3,6 +3,7 @@ using AutoMapper.Execution;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurant.Application.User;
 
 namespace Restaurant.Application.Extensions;
 
@@ -14,5 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
         services.AddValidatorsFromAssemblies(new[] { typeof(ServiceCollectionExtensions).Assembly });
         services.AddFluentValidationAutoValidation();
+        services.AddScoped<IUserContext, UserContext>();
+        services.AddHttpContextAccessor();
     }
 }

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Application.Restaurant.Commands.CreateRestaurant;
@@ -9,6 +10,7 @@ using Restaurant.Application.Restaurant.Quries.GetAllRestaurants;
 using Restaurant.Application.Restaurant.Quries.GetRestaurant;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class RestaurantsController(IMediator _mediator) : ControllerBase
 {
@@ -16,6 +18,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK),]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetRestaurant() //putting ActionResult because wee want to put it in swagger
     {
         var restaurants = await _mediator.Send(new GetAllRestaurantQuery());

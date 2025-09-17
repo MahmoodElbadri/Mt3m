@@ -1,50 +1,13 @@
-using Restaurant.Infrastructure.Extensions;
-using Restaurant.Infrastructure.Seeders;
-using Restaurant.Application.Extensions;
-using Microsoft.AspNetCore.Builder;
-using Serilog;
-using Serilog.Events;
+using Restaurant.Api.Extensions;
 using Restaurant.Api.Middlewares;
 using Restaurant.Domain.Entities;
-using Microsoft.OpenApi.Models;
+using Restaurant.Infrastructure.Seeders;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(tmp =>
-{
-    tmp.AddSecurityDefinition("BearerAuth", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-    });
-    tmp.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "BearerAuth"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddApplication();
-builder.Host.UseSerilog((ctx, configureLogger) =>
-{
-    configureLogger
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    .WriteTo.Console();
-});
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<TimeLoggingMiddleware>();
-
+builder.AddPresentaionExtensions();
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>(); //we put it in the first line so that it can catch all the exceptions and also log them
