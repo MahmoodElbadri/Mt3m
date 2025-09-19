@@ -20,7 +20,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseHttpsRedirection();
-app.MapGroup("api/identity").MapIdentityApi<User>();
+app.MapGroup("api/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<User>();
 
 
 // Configure the HTTP request pipeline.
