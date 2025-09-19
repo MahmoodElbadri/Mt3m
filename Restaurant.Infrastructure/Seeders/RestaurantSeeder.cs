@@ -2,6 +2,8 @@
 using Restaurant.Infrastructure.Persistence;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Restaurant.Domain.Constants;
+using Microsoft.AspNetCore.Identity;
 
 namespace Restaurant.Infrastructure.Seeders;
 
@@ -104,7 +106,7 @@ public class RestaurantSeeder : IRestaurantSeeder
                 {
                     Console.WriteLine($"   - Address: {sampleRestaurant.Address.City}, {sampleRestaurant.Address.Street}");
                 }
-            }
+            }            
 
             Console.WriteLine("🎉🎉🎉 SEEDING COMPLETED SUCCESSFULLY! 🎉🎉🎉");
         }
@@ -121,8 +123,36 @@ public class RestaurantSeeder : IRestaurantSeeder
 
             throw;
         }
+        finally
+        {
+            _logger?.LogInformation("🎉🎉🎉 SEEDING COMPLETED SUCCESSFULLY! 🎉🎉🎉");
+           await SeedRoles();
+            Console.WriteLine("=== END OF DETAILED SEEDING DEBUG ===");
+        }
     }
 
+    private async Task SeedRoles()
+    {
+        if (!_dbContext.Roles.Any())
+        {
+            Console.WriteLine("🎉🎉🎉 SEEDING ROLES... 🎉🎉🎉");
+            var roles = GetUserRoles();
+            await _dbContext.Roles.AddRangeAsync(roles);
+            await _dbContext.SaveChangesAsync();
+            Console.WriteLine("🎉🎉🎉 ROLES SEEDING COMPLETED SUCCESSFULLY! 🎉🎉🎉");
+        }
+    }
+
+    private IEnumerable<IdentityRole> GetUserRoles()
+    {
+        List<IdentityRole> roles =
+        [
+          new  (UserRoles.Admin),
+          new  (UserRoles.User),
+          new  (UserRoles.Owner),
+        ];
+        return roles;
+    }
     private List<Domain.Entities.Restaurant> GetRestaurants()
     {
         var restaurants = new List<Domain.Entities.Restaurant>()

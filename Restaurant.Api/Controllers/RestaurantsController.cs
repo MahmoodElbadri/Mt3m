@@ -8,6 +8,7 @@ using Restaurant.Application.Restaurant.Commands.UpdateRestaurant;
 using Restaurant.Application.Restaurant.Dtos;
 using Restaurant.Application.Restaurant.Quries.GetAllRestaurants;
 using Restaurant.Application.Restaurant.Quries.GetRestaurant;
+using Restaurant.Domain.Constants;
 
 [ApiController]
 [Authorize]
@@ -41,6 +42,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = UserRoles.Owner)]
     public async Task<ActionResult<int>> CreateRestaurant([FromBody] CreateRestaurantCommand restaurantCommand)
     {
         if (!ModelState.IsValid)

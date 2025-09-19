@@ -11,6 +11,7 @@ using Restaurant.Domain.Repositories;
 using Restaurant.Infrastructure.Repository;
 using Restaurant.Infrastructure.Persistence;
 using Restaurant.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Restaurant.Infrastructure.Extensions;
 
@@ -25,6 +26,7 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddIdentityApiEndpoints<User>()
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<RestaurantDbContext>();
 
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
