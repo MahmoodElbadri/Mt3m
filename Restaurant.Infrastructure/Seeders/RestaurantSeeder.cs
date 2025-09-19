@@ -106,7 +106,7 @@ public class RestaurantSeeder : IRestaurantSeeder
                 {
                     Console.WriteLine($"   - Address: {sampleRestaurant.Address.City}, {sampleRestaurant.Address.Street}");
                 }
-            }            
+            }
 
             Console.WriteLine("🎉🎉🎉 SEEDING COMPLETED SUCCESSFULLY! 🎉🎉🎉");
         }
@@ -126,7 +126,7 @@ public class RestaurantSeeder : IRestaurantSeeder
         finally
         {
             _logger?.LogInformation("🎉🎉🎉 SEEDING COMPLETED SUCCESSFULLY! 🎉🎉🎉");
-           await SeedRoles();
+            await SeedRoles();
             Console.WriteLine("=== END OF DETAILED SEEDING DEBUG ===");
         }
     }
@@ -147,9 +147,14 @@ public class RestaurantSeeder : IRestaurantSeeder
     {
         List<IdentityRole> roles =
         [
-          new  (UserRoles.Admin),
-          new  (UserRoles.User),
-          new  (UserRoles.Owner),
+          new  (UserRoles.Admin){
+              NormalizedName = UserRoles.Admin.ToUpper()
+          },
+          new  (UserRoles.User){
+              NormalizedName = UserRoles.User.ToUpper()
+          },
+          new  (UserRoles.Owner) {
+              NormalizedName = UserRoles.Owner.ToUpper() },
         ];
         return roles;
     }
