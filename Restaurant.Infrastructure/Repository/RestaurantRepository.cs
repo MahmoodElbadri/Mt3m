@@ -29,36 +29,21 @@ public class RestaurantRepository(RestaurantDbContext _dbContext) : IRestaurantR
         return rest;
     }
 
-    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurantsAsync()
+    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurantsMatchingAsync(string? searchPhrase, int page, int pageSize)
     {
-        var restaurants = await _dbContext.Restaurants.Include(tmp => tmp.Dishes).ToListAsync();
-        return restaurants;
-    }
-
-    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurantsMatchingAsync(string? searchPhrase)
-    {
-        if (string.IsNullOrEmpty(searchPhrase))
+        IQueryable<Restaurant.Domain.Entities.Restaurant> query = _dbContext.Restaurants.Include(tmp => tmp.Dishes);
+        if (!string.IsNullOrWhiteSpace(searchPhrase))
         {
-            return await GetRestaurantsAsync();
+            query = query.Where(tmp => tmp.Name.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
+            || tmp.Description.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
+            );
         }
-        //var restaurants = await _dbContext
-        //    .Restaurants
-        //    .Where(tmp => tmp.Name.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
-        //    || tmp.Description.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
-        //    )
-        //    .Include(tmp => tmp.Dishes)
-        //    .ToListAsync();
-
-        string searchTerm = searchPhrase.Trim();
-        //replacing the above code with the following code for better performance and also EFCore didn't recognize the StringComparison.OrdinalIgnoreCase
-        return await _dbContext.Restaurants
-            .Where(r =>
-                EF.Functions.Like(r.Name, $"%{searchTerm}%") ||
-                EF.Functions.Like(r.Description, $"%{searchTerm}%"))
-            .Include(r => r.Dishes)
-            .ToListAsync();
-
-        //return restaurants;
+        if (page > 0 && pageSize > 0)
+        {
+            query = query.Skip((page - 1) * pageSize)
+                .Take(pageSize);
+        }
+        return await query.ToListAsync();
     }
 
     public async Task UpdateAsync(Domain.Entities.Restaurant restaurant)

@@ -22,10 +22,7 @@ public class RestaurantsController(IMediator _mediator) : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetRestaurant([FromQuery] GetAllRestaurantQuery query) //putting ActionResult because wee want to put it in swagger the template that data will be shaped
     {
-        var restaurants = await _mediator.Send(new GetAllRestaurantQuery()
-        {
-            searchPhrase = query?.searchPhrase
-        });
+        var restaurants = await _mediator.Send(request: query);
         return Ok(restaurants);
     }
 
