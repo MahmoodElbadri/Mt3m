@@ -7,4 +7,5 @@ public interface IRestaurantRepository
     Task<int> CreateAsync(Restaurant rest);
     Task<bool> DeleteAsync(Restaurant restaurant);
     Task UpdateAsync(Restaurant restaurant);
+    Task<IEnumerable<Restaurant>> GetRestaurantsMatchingAsync(string? searchPhrase);
 }

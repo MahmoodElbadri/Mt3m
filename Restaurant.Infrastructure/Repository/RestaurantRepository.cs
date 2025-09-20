@@ -35,6 +35,32 @@ public class RestaurantRepository(RestaurantDbContext _dbContext) : IRestaurantR
         return restaurants;
     }
 
+    public async Task<IEnumerable<Restaurant.Domain.Entities.Restaurant>> GetRestaurantsMatchingAsync(string? searchPhrase)
+    {
+        if (string.IsNullOrEmpty(searchPhrase))
+        {
+            return await GetRestaurantsAsync();
+        }
+        //var restaurants = await _dbContext
+        //    .Restaurants
+        //    .Where(tmp => tmp.Name.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
+        //    || tmp.Description.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase)
+        //    )
+        //    .Include(tmp => tmp.Dishes)
+        //    .ToListAsync();
+
+        string searchTerm = searchPhrase.Trim();
+        //replacing the above code with the following code for better performance and also EFCore didn't recognize the StringComparison.OrdinalIgnoreCase
+        return await _dbContext.Restaurants
+            .Where(r =>
+                EF.Functions.Like(r.Name, $"%{searchTerm}%") ||
+                EF.Functions.Like(r.Description, $"%{searchTerm}%"))
+            .Include(r => r.Dishes)
+            .ToListAsync();
+
+        //return restaurants;
+    }
+
     public async Task UpdateAsync(Domain.Entities.Restaurant restaurant)
     {
         _dbContext.Restaurants.Update(restaurant);
